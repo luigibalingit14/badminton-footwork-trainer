@@ -574,8 +574,8 @@ function startRallyMode() {
 
             shotIndex++;
 
-            // Update shot counter
-            updateRallyShotCounter(shotIndex, shotsInRally);
+            // Update shot counter (use base setting, not varied amount)
+            updateRallyShotCounter(shotIndex, baseShots);
 
             // Next shot using configured speed
             state.session.timeoutId = setTimeout(executeShot, state.settings.rallySpeed);
