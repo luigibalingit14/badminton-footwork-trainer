@@ -181,7 +181,7 @@ body::before {
 }
 
 .doubles-zone.active::before {
-    background: radial-gradient(circle, rgba(255, 183, 77, 0.3) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255, 235, 59, 0.3) 0%, transparent 70%);
 }
 
 @keyframes pulse {
@@ -985,17 +985,17 @@ body::before {
     background: rgba(255, 255, 255, 0.3);
 }
 
-/* Doubles Zones (7-12) - Different Color */
+/* Doubles Zones (7-12) - Yellow Color */
 .doubles-zone .zone-number {
-    background: rgba(255, 183, 77, 0.2);
-    border-color: #FFB74D;
+    background: rgba(255, 235, 59, 0.2);
+    border-color: #FFEB3B;
 }
 
 .doubles-zone.active .zone-number {
-    background: rgba(255, 183, 77, 0.4);
-    border-color: #FFA726;
-    box-shadow: 0 0 30px rgba(255, 183, 77, 0.6),
-                0 0 60px rgba(255, 183, 77, 0.3);
+    background: rgba(255, 235, 59, 0.4);
+    border-color: #FDD835;
+    box-shadow: 0 0 30px rgba(255, 235, 59, 0.6),
+                0 0 60px rgba(255, 235, 59, 0.3);
 }
 
 /* Zone Enabled/Disabled States */
@@ -1004,7 +1004,7 @@ body::before {
 }
 
 .doubles-zone.enabled .zone-number {
-    border-color: #FFB74D;
+    border-color: #FFEB3B;
 }
 
 .zone.disabled .zone-number {
