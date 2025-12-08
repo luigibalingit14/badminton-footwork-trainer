@@ -180,9 +180,10 @@ function handleDragMove(e) {
     const clientX = e.clientX !== undefined ? e.clientX : (e.touches ? e.touches[0].clientX : 0);
     const clientY = e.clientY !== undefined ? e.clientY : (e.touches ? e.touches[0].clientY : 0);
 
-    // Check if moved more than 5 pixels (threshold for drag vs click)
+    // Check if moved more than threshold (10 pixels for touch, 5 for mouse)
+    const threshold = e.touches ? 10 : 5;
     const moveDistance = Math.abs(clientX - dragState.startX) + Math.abs(clientY - dragState.startY);
-    if (moveDistance > 5) {
+    if (moveDistance > threshold) {
         dragState.hasMoved = true;
     }
 
@@ -234,18 +235,21 @@ function handleDragEnd(e) {
 
 // Handle Zone Click (Toggle Enable/Disable)
 function handleZoneClick(zoneElement) {
-    if (state.isRunning || dragState.wasDragging) {
-        dragState.wasDragging = false;
-        return;
-    }
+    // Small delay to check if it was actually a drag
+    setTimeout(() => {
+        if (state.isRunning || dragState.wasDragging) {
+            dragState.wasDragging = false;
+            return;
+        }
 
-    const zoneNumber = parseInt(zoneElement.dataset.zone);
+        const zoneNumber = parseInt(zoneElement.dataset.zone);
 
-    // Toggle zone enabled state
-    state.zonesEnabled[zoneNumber] = !state.zonesEnabled[zoneNumber];
+        // Toggle zone enabled state
+        state.zonesEnabled[zoneNumber] = !state.zonesEnabled[zoneNumber];
 
-    // Update visual state
-    updateZoneVisualState(zoneNumber);
+        // Update visual state
+        updateZoneVisualState(zoneNumber);
+    }, 50);
 }
 
 // Update Zone Visual State
