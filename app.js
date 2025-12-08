@@ -675,10 +675,10 @@ function speakZoneNumber(zoneNumber) {
             // Cancel any ongoing speech
             window.speechSynthesis.cancel();
 
-            // Create utterance text - add "opponent" for zones 7-12
+            // Create utterance text - add "partner" for zones 7-12
             let text = zoneNumber.toString();
             if (zoneNumber >= 7 && zoneNumber <= 12) {
-                text = `opponent ${zoneNumber}`;
+                text = `partner ${zoneNumber}`;
             }
             const utterance = new SpeechSynthesisUtterance(text);
 
