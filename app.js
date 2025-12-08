@@ -385,6 +385,22 @@ function handleCourtTypeSwitch(btn) {
         zone.style.display = courtType === 'doubles' ? 'block' : 'none';
     });
 
+    // Update sequence labels and placeholders
+    const isDoubles = courtType === 'doubles';
+    const sequentialText = isDoubles ? 'Sequential (1-12)' : 'Sequential (1-6)';
+    const customLabel = isDoubles ? 'Custom (e.g., 1,3,7,9,2,4,8,10)' : 'Custom (e.g., 1,3,2,4,6)';
+    const placeholder = isDoubles ? '1,3,7,9,2,4,8,10' : '1,3,2,4,6';
+    
+    // Update practice mode labels
+    document.getElementById('practiceSequentialOption').textContent = sequentialText;
+    document.getElementById('customSequenceLabel').textContent = customLabel;
+    document.getElementById('customSequence').placeholder = placeholder;
+    
+    // Update rally mode labels
+    document.getElementById('rallySequentialOption').textContent = sequentialText;
+    document.getElementById('rallyCustomSequenceLabel').textContent = customLabel;
+    document.getElementById('rallyCustomSequence').placeholder = placeholder;
+
     // Stop current session if running
     if (state.isRunning) {
         stopTraining();
