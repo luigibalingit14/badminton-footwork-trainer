@@ -39,8 +39,19 @@ const state = {
 };
 
 // Get active zones based on court type
+// In doubles, we only pick from 1-6, then mirror to 7-12
 function getActiveZones() {
-    return state.courtType === 'singles' ? [1, 2, 3, 4, 5, 6] : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    return [1, 2, 3, 4, 5, 6];
+}
+
+// Get mirrored zone for doubles (1->7, 2->8, etc.)
+function getMirroredZone(zoneNumber) {
+    if (zoneNumber >= 1 && zoneNumber <= 6) {
+        return zoneNumber + 6;
+    } else if (zoneNumber >= 7 && zoneNumber <= 12) {
+        return zoneNumber - 6;
+    }
+    return zoneNumber;
 }
 let sequenceIndex = -1;
 
@@ -654,6 +665,16 @@ function highlightZone(zoneNumber) {
     const zoneElement = document.querySelector(`[data-zone="${zoneNumber}"]`);
     if (zoneElement) {
         zoneElement.classList.add('active');
+        
+        // In doubles mode, also highlight the mirrored zone
+        if (state.courtType === 'doubles') {
+            const mirroredZone = getMirroredZone(zoneNumber);
+            const mirroredElement = document.querySelector(`[data-zone="${mirroredZone}"]`);
+            if (mirroredElement) {
+                mirroredElement.classList.add('active');
+            }
+        }
+        
         playSound('beep');
         speakZoneNumber(zoneNumber);
     }
