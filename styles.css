@@ -163,6 +163,14 @@ body::before {
     transform: scale(1.3) !important;
 }
 
+.doubles-zone.active .zone-number {
+    background: rgba(255, 235, 59, 0.9) !important;
+    border-color: #FDD835 !important;
+    border-width: 4px !important;
+    box-shadow: 0 0 40px rgba(255, 235, 59, 1), 0 0 80px rgba(255, 235, 59, 0.6) !important;
+    transform: scale(1.3) !important;
+}
+
 .zone.active {
     z-index: 100;
 }
