@@ -117,12 +117,115 @@
                 </div>
             </div>
 
+            <!-- Doubles Zones (7-12) - Hidden by default -->
+            <!-- Zone 7: Back Left (Opponent Side) -->
+            <div class="zone doubles-zone" data-zone="7" style="bottom: 20%; left: 25%; display: none;">
+                <div class="zone-number">7</div>
+                <div class="zone-indicator">
+                    <svg class="indicator-icon checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <svg class="indicator-icon cross" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Zone 8: Back Right (Opponent Side) -->
+            <div class="zone doubles-zone" data-zone="8" style="bottom: 20%; right: 25%; display: none;">
+                <div class="zone-number">8</div>
+                <div class="zone-indicator">
+                    <svg class="indicator-icon checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <svg class="indicator-icon cross" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Zone 9: Front Left (Opponent Side) -->
+            <div class="zone doubles-zone" data-zone="9" style="bottom: 70%; left: 25%; display: none;">
+                <div class="zone-number">9</div>
+                <div class="zone-indicator">
+                    <svg class="indicator-icon checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <svg class="indicator-icon cross" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Zone 10: Front Right (Opponent Side) -->
+            <div class="zone doubles-zone" data-zone="10" style="bottom: 70%; right: 25%; display: none;">
+                <div class="zone-number">10</div>
+                <div class="zone-indicator">
+                    <svg class="indicator-icon checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <svg class="indicator-icon cross" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Zone 11: Mid Left (Opponent Side) -->
+            <div class="zone doubles-zone" data-zone="11" style="bottom: 50%; left: 25%; transform: translateY(50%); display: none;">
+                <div class="zone-number">11</div>
+                <div class="zone-indicator">
+                    <svg class="indicator-icon checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <svg class="indicator-icon cross" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Zone 12: Mid Right (Opponent Side) -->
+            <div class="zone doubles-zone" data-zone="12" style="bottom: 50%; right: 25%; transform: translateY(50%); display: none;">
+                <div class="zone-number">12</div>
+                <div class="zone-indicator">
+                    <svg class="indicator-icon checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <svg class="indicator-icon cross" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+
             <!-- Court Lines (Decorative) -->
             <div class="court-lines"></div>
         </div>
 
         <!-- Settings Panel -->
         <div class="settings-panel">
+            <!-- Court Type Toggle -->
+            <div class="court-type-toggle">
+                <button class="court-btn active" data-court="singles">Singles</button>
+                <button class="court-btn" data-court="doubles">Doubles</button>
+            </div>
+
             <!-- Tab Navigation -->
             <div class="tab-navigation">
                 <button class="tab-btn active" data-tab="practice">Practice</button>

@@ -1,6 +1,7 @@
 // Application State
 const state = {
     mode: 'practice', // 'practice' or 'rally'
+    courtType: 'singles', // 'singles' (6 zones) or 'doubles' (12 zones)
     isRunning: false,
     settings: {
         pauseTime: 2500, // milliseconds
@@ -28,16 +29,25 @@ const state = {
         4: true,
         5: true,
         6: true,
+        7: true,
+        8: true,
+        9: true,
+        10: true,
+        11: true,
+        12: true,
     },
 };
 
-// Zone Configuration (Half Court - 6 zones)
-const zones = [1, 2, 3, 4, 5, 6];
+// Get active zones based on court type
+function getActiveZones() {
+    return state.courtType === 'singles' ? [1, 2, 3, 4, 5, 6] : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+}
 let sequenceIndex = -1;
 
 // Get Next Zone Based on Sequence Mode
 function getNextZone() {
-    const enabledZones = zones.filter(z => state.zonesEnabled[z]);
+    const activeZones = getActiveZones();
+    const enabledZones = activeZones.filter(z => state.zonesEnabled[z]);
     
     if (enabledZones.length === 0) return null;
     
@@ -96,6 +106,7 @@ function getNextZone() {
 
 // DOM Elements
 const elements = {
+    courtBtns: document.querySelectorAll('.court-btn'),
     tabs: document.querySelectorAll('.tab-btn'),
     tabContents: document.querySelectorAll('.tab-content'),
     startBtn: document.getElementById('startBtn'),
@@ -127,13 +138,19 @@ function init() {
 
 // Initialize Zones
 function initializeZones() {
-    zones.forEach(zoneNumber => {
+    const activeZones = getActiveZones();
+    activeZones.forEach(zoneNumber => {
         updateZoneVisualState(zoneNumber);
     });
 }
 
 // Event Listeners
 function setupEventListeners() {
+    // Court type switching
+    elements.courtBtns.forEach(btn => {
+        btn.addEventListener('click', () => handleCourtTypeSwitch(btn));
+    });
+
     // Tab switching
     elements.tabs.forEach(tab => {
         tab.addEventListener('click', () => handleTabSwitch(tab));
@@ -351,6 +368,32 @@ function updateZoneVisualState(zoneNumber) {
     }
 }
 
+// Court Type Switching
+function handleCourtTypeSwitch(btn) {
+    const courtType = btn.dataset.court;
+
+    // Update active button
+    elements.courtBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Update court type
+    state.courtType = courtType;
+
+    // Show/hide doubles zones
+    const doublesZones = document.querySelectorAll('.doubles-zone');
+    doublesZones.forEach(zone => {
+        zone.style.display = courtType === 'doubles' ? 'block' : 'none';
+    });
+
+    // Stop current session if running
+    if (state.isRunning) {
+        stopTraining();
+    }
+
+    // Reinitialize zones
+    initializeZones();
+}
+
 // Tab Switching
 function handleTabSwitch(tab) {
     const targetTab = tab.dataset.tab;
@@ -405,10 +448,11 @@ function updateSettingsFromInputs() {
     // Practice mode sequence
     state.settings.sequenceMode = elements.sequenceModeSelect.value;
     const sequenceStr = elements.customSequenceInput.value.trim();
+    const maxZone = state.courtType === 'singles' ? 6 : 12;
     if (sequenceStr) {
         state.settings.customSequence = sequenceStr.split(',')
             .map(n => parseInt(n.trim()))
-            .filter(n => n >= 1 && n <= 6);
+            .filter(n => n >= 1 && n <= maxZone);
     } else {
         state.settings.customSequence = [];
     }
@@ -419,7 +463,7 @@ function updateSettingsFromInputs() {
     if (rallySequenceStr) {
         state.settings.rallyCustomSequence = rallySequenceStr.split(',')
             .map(n => parseInt(n.trim()))
-            .filter(n => n >= 1 && n <= 6);
+            .filter(n => n >= 1 && n <= maxZone);
     } else {
         state.settings.rallyCustomSequence = [];
     }

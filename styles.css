@@ -279,6 +279,40 @@ body::before {
     box-shadow: var(--shadow-lg);
 }
 
+/* Court Type Toggle */
+.court-type-toggle {
+    display: flex;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+    background: rgba(0, 0, 0, 0.4);
+    padding: 4px;
+    border-radius: var(--radius-md);
+}
+
+.court-btn {
+    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: transparent;
+    color: var(--color-text-muted);
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.court-btn:hover {
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.court-btn.active {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    box-shadow: var(--shadow-sm);
+}
+
 /* Tab Navigation */
 .tab-navigation {
     display: flex;
@@ -789,6 +823,16 @@ body::before {
         height: 48vh;
         max-height: 48vh;
         overflow-y: auto;
+    }
+
+    .court-type-toggle {
+        margin-bottom: 0.5rem;
+    }
+
+    .court-btn {
+        font-size: 0.8rem;
+        padding: 0.5rem 0.6rem;
+        min-height: 36px;
     }
 
     .tab-btn {
