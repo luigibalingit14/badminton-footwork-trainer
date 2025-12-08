@@ -609,34 +609,46 @@ body::before {
 @media (max-width: 768px) {
     body {
         overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .app-container {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
     }
 
     .court-container {
-        height: 55vh;
-        min-height: 400px;
+        width: 100vw;
+        height: 60vh;
+        min-height: 450px;
+        flex-shrink: 0;
     }
 
     .zone {
-        width: 70px;
-        height: 70px;
+        width: 65px;
+        height: 65px;
+        touch-action: none;
     }
 
     .zone-number {
-        width: 45px;
-        height: 45px;
-        font-size: 1.25rem;
+        width: 42px;
+        height: 42px;
+        font-size: 1.2rem;
         border-width: 3px;
     }
 
     .indicator-icon {
-        width: 50px;
-        height: 50px;
+        width: 45px;
+        height: 45px;
     }
 
     .settings-panel {
+        width: 100vw;
         padding: var(--spacing-md);
-        max-height: 45vh;
+        max-height: 40vh;
         overflow-y: auto;
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     }
 
     .tab-btn {
@@ -690,30 +702,30 @@ body::before {
     }
 
     .court-container {
-        height: 50vh;
-        min-height: 350px;
+        height: 55vh;
+        min-height: 380px;
     }
 
     .zone {
-        width: 60px;
-        height: 60px;
+        width: 55px;
+        height: 55px;
     }
 
     .zone-number {
-        width: 38px;
-        height: 38px;
-        font-size: 1.1rem;
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
         border-width: 2px;
     }
 
     .indicator-icon {
-        width: 42px;
-        height: 42px;
+        width: 38px;
+        height: 38px;
     }
 
     .settings-panel {
         padding: var(--spacing-sm) var(--spacing-md);
-        max-height: 50vh;
+        max-height: 45vh;
     }
 
     .tab-btn {
@@ -792,13 +804,17 @@ body::before {
     }
 
     .countdown-display {
-        font-size: 80px;
+        font-size: 70px;
     }
 
     .rally-shot-counter {
-        font-size: 24px;
-        padding: 10px 25px;
+        font-size: 22px;
+        padding: 8px 20px;
         top: 10px;
+    }
+    
+    .footer-icons {
+        padding-bottom: 10px;
     }
 }
 

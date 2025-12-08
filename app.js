@@ -106,13 +106,29 @@ function setupEventListeners() {
     elements.zoneElements.forEach(zone => {
         zone.addEventListener('click', () => handleZoneClick(zone));
 
-        // Drag handlers
+        // Drag handlers - Mouse
         zone.addEventListener('mousedown', (e) => handleDragStart(e, zone));
+        
+        // Drag handlers - Touch
+        zone.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            handleDragStart(touch, zone);
+        }, { passive: false });
     });
 
-    // Global drag handlers
+    // Global drag handlers - Mouse
     document.addEventListener('mousemove', handleDragMove);
     document.addEventListener('mouseup', handleDragEnd);
+    
+    // Global drag handlers - Touch
+    document.addEventListener('touchmove', (e) => {
+        if (dragState.isDragging) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            handleDragMove(touch);
+        }
+    }, { passive: false });
+    document.addEventListener('touchend', handleDragEnd);
 
     // Keyboard shortcuts
     document.addEventListener('keydown', handleKeyboard);
