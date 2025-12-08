@@ -757,97 +757,114 @@ body::before {
     }
 
     .court-container {
-        height: 50vh;
-        min-height: 250px;
-        max-height: 50vh;
+        height: 52vh;
+        min-height: 280px;
+        max-height: 52vh;
     }
 
     .zone {
-        width: 50px;
-        height: 50px;
+        width: 54px;
+        height: 54px;
     }
 
     .zone-number {
-        width: 34px;
-        height: 34px;
-        font-size: 0.95rem;
-        border-width: 2px;
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+        border-width: 2.5px;
     }
 
     .indicator-icon {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
     }
 
     .zone-indicator {
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
     }
 
     .settings-panel {
-        padding: var(--spacing-sm) var(--spacing-md);
-        height: 50vh;
-        max-height: 50vh;
+        padding: 0.5rem 0.75rem;
+        height: 48vh;
+        max-height: 48vh;
+        overflow-y: auto;
     }
 
     .tab-btn {
-        font-size: 0.8rem;
-        padding: 0.5rem 0.6rem;
+        font-size: 0.85rem;
+        padding: 0.6rem 0.8rem;
+        min-height: 40px;
     }
 
     .setting-group {
-        margin-bottom: 0.6rem;
+        margin-bottom: 0.5rem;
     }
 
     .setting-group label {
-        font-size: 0.7rem;
-        margin-bottom: 0.25rem;
+        font-size: 0.75rem;
+        margin-bottom: 0.3rem;
+        font-weight: 600;
     }
 
     .input-control {
-        padding: 0.25rem;
-        gap: 0.25rem;
+        padding: 0.3rem;
+        gap: 0.35rem;
     }
 
     .control-btn {
-        width: 28px;
-        height: 28px;
-        font-size: 1.1rem;
+        width: 32px;
+        height: 32px;
+        font-size: 1.2rem;
         line-height: 1;
+        min-width: 32px;
     }
 
     .input-control input {
-        font-size: 0.85rem;
-        width: 80px;
-        padding: 0.25rem;
+        font-size: 0.9rem;
+        width: 85px;
+        padding: 0.35rem;
     }
 
     .input-control .unit {
-        font-size: 0.7rem;
-        min-width: 25px;
+        font-size: 0.75rem;
+        min-width: 30px;
     }
 
     .start-btn {
-        height: 45px;
-        font-size: 1.3rem;
-        margin: 0.4rem 0;
+        height: 48px;
+        font-size: 1.4rem;
+        margin: 0.5rem 0;
         padding: 0;
+        min-height: 48px;
     }
 
     .footer-icons {
-        gap: 0.5rem;
-        margin-top: 0.25rem;
+        gap: 0.6rem;
+        margin-top: 0.3rem;
         padding-bottom: 0.5rem;
     }
 
     .icon-btn {
-        width: 34px;
-        height: 34px;
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
     }
 
     .icon-btn svg {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
+    }
+
+    .sequence-select,
+    .sequence-input {
+        font-size: 0.85rem;
+        padding: 0.45rem 0.5rem;
+        min-height: 38px;
+    }
+
+    .sequence-select {
+        padding-right: 1.8rem;
     }
 
     .modal-content {

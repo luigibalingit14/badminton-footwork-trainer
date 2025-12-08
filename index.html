@@ -157,6 +157,18 @@
             <!-- Rally Mode Settings -->
             <div class="tab-content" id="rally-tab">
                 <div class="setting-group">
+                    <label>Zone sequence</label>
+                    <select id="rallySequenceMode" class="sequence-select">
+                        <option value="random">Random</option>
+                        <option value="sequential">Sequential (1-6)</option>
+                        <option value="custom">Custom Sequence</option>
+                    </select>
+                </div>
+                <div class="setting-group" id="rallyCustomSequenceGroup" style="display: none;">
+                    <label>Custom (e.g., 1,3,2,4,6)</label>
+                    <input type="text" id="rallyCustomSequence" class="sequence-input" placeholder="1,3,2,4,6">
+                </div>
+                <div class="setting-group">
                     <label>Shots per rally (±30%)</label>
                     <div class="input-control">
                         <button class="control-btn" data-action="decrease" data-target="shotsPerRally">−</button>

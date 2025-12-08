@@ -7,8 +7,10 @@ const state = {
         shotsPerRally: 15,
         rallyPause: 10, // seconds
         rallySpeed: 600, // milliseconds between shots in rally mode
-        sequenceMode: 'random', // 'random', 'sequential', or 'custom'
-        customSequence: [], // Custom sequence of zones
+        sequenceMode: 'random', // 'random', 'sequential', or 'custom' for practice
+        customSequence: [], // Custom sequence for practice
+        rallySequenceMode: 'random', // 'random', 'sequential', or 'custom' for rally
+        rallyCustomSequence: [], // Custom sequence for rally
     },
     session: {
         currentZone: null,
@@ -39,9 +41,13 @@ function getNextZone() {
     
     if (enabledZones.length === 0) return null;
     
+    // Use mode-specific sequence settings
+    const sequenceMode = state.mode === 'rally' ? state.settings.rallySequenceMode : state.settings.sequenceMode;
+    const customSequence = state.mode === 'rally' ? state.settings.rallyCustomSequence : state.settings.customSequence;
+    
     let nextZone;
     
-    switch (state.settings.sequenceMode) {
+    switch (sequenceMode) {
         case 'sequential':
             // Go through zones 1, 2, 3, 4, 5, 6 in order
             const enabledInOrder = enabledZones.sort((a, b) => a - b);
@@ -54,8 +60,8 @@ function getNextZone() {
             
         case 'custom':
             // Use custom sequence
-            if (state.settings.customSequence.length > 0) {
-                const validSequence = state.settings.customSequence.filter(z => state.zonesEnabled[z]);
+            if (customSequence.length > 0) {
+                const validSequence = customSequence.filter(z => state.zonesEnabled[z]);
                 if (validSequence.length > 0) {
                     sequenceIndex++;
                     if (sequenceIndex >= validSequence.length) {
@@ -99,6 +105,8 @@ const elements = {
     rallySpeedInput: document.getElementById('rallySpeed'),
     sequenceModeSelect: document.getElementById('sequenceMode'),
     customSequenceInput: document.getElementById('customSequence'),
+    rallySequenceModeSelect: document.getElementById('rallySequenceMode'),
+    rallyCustomSequenceInput: document.getElementById('rallyCustomSequence'),
     controlBtns: document.querySelectorAll('.control-btn'),
     zoneElements: document.querySelectorAll('.zone'),
     helpBtn: document.getElementById('helpBtn'),
@@ -144,8 +152,20 @@ function setupEventListeners() {
     elements.shotsPerRallyInput.addEventListener('change', updateSettingsFromInputs);
     elements.rallyPauseInput.addEventListener('change', updateSettingsFromInputs);
     elements.rallySpeedInput.addEventListener('change', updateSettingsFromInputs);
-    elements.sequenceModeSelect.addEventListener('change', updateSettingsFromInputs);
+    
+    // Practice sequence controls
+    elements.sequenceModeSelect.addEventListener('change', () => {
+        updateSettingsFromInputs();
+        toggleCustomSequenceInput('practice');
+    });
     elements.customSequenceInput.addEventListener('change', updateSettingsFromInputs);
+    
+    // Rally sequence controls
+    elements.rallySequenceModeSelect.addEventListener('change', () => {
+        updateSettingsFromInputs();
+        toggleCustomSequenceInput('rally');
+    });
+    elements.rallyCustomSequenceInput.addEventListener('change', updateSettingsFromInputs);
 
     // Footer buttons
     elements.helpBtn.addEventListener('click', () => openModal('help'));
@@ -379,9 +399,9 @@ function updateSettingsFromInputs() {
     state.settings.shotsPerRally = parseInt(elements.shotsPerRallyInput.value);
     state.settings.rallyPause = parseInt(elements.rallyPauseInput.value);
     state.settings.rallySpeed = parseInt(elements.rallySpeedInput.value);
-    state.settings.sequenceMode = elements.sequenceModeSelect.value;
     
-    // Parse custom sequence
+    // Practice mode sequence
+    state.settings.sequenceMode = elements.sequenceModeSelect.value;
     if (state.settings.sequenceMode === 'custom') {
         const sequenceStr = elements.customSequenceInput.value.trim();
         if (sequenceStr) {
@@ -391,10 +411,32 @@ function updateSettingsFromInputs() {
         }
     }
     
+    // Rally mode sequence
+    state.settings.rallySequenceMode = elements.rallySequenceModeSelect.value;
+    if (state.settings.rallySequenceMode === 'custom') {
+        const sequenceStr = elements.rallyCustomSequenceInput.value.trim();
+        if (sequenceStr) {
+            state.settings.rallyCustomSequence = sequenceStr.split(',')
+                .map(n => parseInt(n.trim()))
+                .filter(n => n >= 1 && n <= 6);
+        }
+    }
+    
     // Show/hide custom sequence input
     const customInput = document.getElementById('customSequenceGroup');
     if (customInput) {
         customInput.style.display = state.settings.sequenceMode === 'custom' ? 'block' : 'none';
+    }
+}
+
+// Toggle Custom Sequence Input Visibility
+function toggleCustomSequenceInput(mode) {
+    if (mode === 'practice') {
+        const customGroup = document.getElementById('customSequenceGroup');
+        customGroup.style.display = state.settings.sequenceMode === 'custom' ? 'block' : 'none';
+    } else if (mode === 'rally') {
+        const rallyCustomGroup = document.getElementById('rallyCustomSequenceGroup');
+        rallyCustomGroup.style.display = state.settings.rallySequenceMode === 'custom' ? 'block' : 'none';
     }
 }
 
