@@ -7,6 +7,8 @@ const state = {
         shotsPerRally: 15,
         rallyPause: 10, // seconds
         rallySpeed: 600, // milliseconds between shots in rally mode
+        sequenceMode: 'random', // 'random', 'sequential', or 'custom'
+        customSequence: [], // Custom sequence of zones
     },
     session: {
         currentZone: null,
@@ -29,6 +31,56 @@ const state = {
 
 // Zone Configuration (Half Court - 6 zones)
 const zones = [1, 2, 3, 4, 5, 6];
+let sequenceIndex = 0;
+
+// Get Next Zone Based on Sequence Mode
+function getNextZone() {
+    const enabledZones = zones.filter(z => state.zonesEnabled[z]);
+    
+    if (enabledZones.length === 0) return null;
+    
+    let nextZone;
+    
+    switch (state.settings.sequenceMode) {
+        case 'sequential':
+            // Go through zones 1, 2, 3, 4, 5, 6 in order
+            const enabledInOrder = enabledZones.sort((a, b) => a - b);
+            sequenceIndex = (sequenceIndex + 1) % enabledInOrder.length;
+            nextZone = enabledInOrder[sequenceIndex];
+            break;
+            
+        case 'custom':
+            // Use custom sequence
+            if (state.settings.customSequence.length > 0) {
+                const validSequence = state.settings.customSequence.filter(z => state.zonesEnabled[z]);
+                if (validSequence.length > 0) {
+                    sequenceIndex = (sequenceIndex + 1) % validSequence.length;
+                    nextZone = validSequence[sequenceIndex];
+                } else {
+                    // Fallback to random if no valid zones in custom sequence
+                    const availableZones = enabledZones.filter(z => z !== state.session.lastZone);
+                    const zonesToChooseFrom = availableZones.length > 0 ? availableZones : enabledZones;
+                    nextZone = zonesToChooseFrom[Math.floor(Math.random() * zonesToChooseFrom.length)];
+                }
+            } else {
+                // Fallback to random if no custom sequence defined
+                const availableZones = enabledZones.filter(z => z !== state.session.lastZone);
+                const zonesToChooseFrom = availableZones.length > 0 ? availableZones : enabledZones;
+                nextZone = zonesToChooseFrom[Math.floor(Math.random() * zonesToChooseFrom.length)];
+            }
+            break;
+            
+        case 'random':
+        default:
+            // Random (avoid immediate repeat)
+            const availableZones = enabledZones.filter(z => z !== state.session.lastZone);
+            const zonesToChooseFrom = availableZones.length > 0 ? availableZones : enabledZones;
+            nextZone = zonesToChooseFrom[Math.floor(Math.random() * zonesToChooseFrom.length)];
+            break;
+    }
+    
+    return nextZone;
+}
 
 // DOM Elements
 const elements = {
@@ -39,6 +91,8 @@ const elements = {
     shotsPerRallyInput: document.getElementById('shotsPerRally'),
     rallyPauseInput: document.getElementById('rallyPause'),
     rallySpeedInput: document.getElementById('rallySpeed'),
+    sequenceModeSelect: document.getElementById('sequenceMode'),
+    customSequenceInput: document.getElementById('customSequence'),
     controlBtns: document.querySelectorAll('.control-btn'),
     zoneElements: document.querySelectorAll('.zone'),
     helpBtn: document.getElementById('helpBtn'),
@@ -84,6 +138,8 @@ function setupEventListeners() {
     elements.shotsPerRallyInput.addEventListener('change', updateSettingsFromInputs);
     elements.rallyPauseInput.addEventListener('change', updateSettingsFromInputs);
     elements.rallySpeedInput.addEventListener('change', updateSettingsFromInputs);
+    elements.sequenceModeSelect.addEventListener('change', updateSettingsFromInputs);
+    elements.customSequenceInput.addEventListener('change', updateSettingsFromInputs);
 
     // Footer buttons
     elements.helpBtn.addEventListener('click', () => openModal('help'));
@@ -316,6 +372,23 @@ function updateSettingsFromInputs() {
     state.settings.shotsPerRally = parseInt(elements.shotsPerRallyInput.value);
     state.settings.rallyPause = parseInt(elements.rallyPauseInput.value);
     state.settings.rallySpeed = parseInt(elements.rallySpeedInput.value);
+    state.settings.sequenceMode = elements.sequenceModeSelect.value;
+    
+    // Parse custom sequence
+    if (state.settings.sequenceMode === 'custom') {
+        const sequenceStr = elements.customSequenceInput.value.trim();
+        if (sequenceStr) {
+            state.settings.customSequence = sequenceStr.split(',')
+                .map(n => parseInt(n.trim()))
+                .filter(n => n >= 1 && n <= 6);
+        }
+    }
+    
+    // Show/hide custom sequence input
+    const customInput = document.getElementById('customSequenceGroup');
+    if (customInput) {
+        customInput.style.display = state.settings.sequenceMode === 'custom' ? 'block' : 'none';
+    }
 }
 
 // Toggle Training
@@ -377,20 +450,14 @@ function startPracticeMode() {
         // Clear previous zone
         clearAllZones();
 
-        // Get enabled zones only
-        const enabledZones = zones.filter(z => state.zonesEnabled[z]);
-
-        // Check if there are any enabled zones
-        if (enabledZones.length === 0) {
+        // Get next zone based on sequence mode
+        const nextZone = getNextZone();
+        
+        if (nextZone === null) {
             stopTraining();
             alert('Please enable at least one zone!');
             return;
         }
-
-        // Select random zone from enabled zones (avoid immediate repeat)
-        const availableZones = enabledZones.filter(z => z !== state.session.lastZone);
-        const zonesToChooseFrom = availableZones.length > 0 ? availableZones : enabledZones;
-        const nextZone = zonesToChooseFrom[Math.floor(Math.random() * zonesToChooseFrom.length)];
 
         // Highlight zone
         highlightZone(nextZone);
@@ -438,20 +505,14 @@ function startRallyMode() {
             // Clear previous zone
             clearAllZones();
 
-            // Get enabled zones only
-            const enabledZones = zones.filter(z => state.zonesEnabled[z]);
-
-            // Check if there are any enabled zones
-            if (enabledZones.length === 0) {
+            // Get next zone based on sequence mode
+            const nextZone = getNextZone();
+            
+            if (nextZone === null) {
                 stopTraining();
                 alert('Please enable at least one zone!');
                 return;
             }
-
-            // Select random zone from enabled zones
-            const availableZones = enabledZones.filter(z => z !== state.session.lastZone);
-            const zonesToChooseFrom = availableZones.length > 0 ? availableZones : enabledZones;
-            const nextZone = zonesToChooseFrom[Math.floor(Math.random() * zonesToChooseFrom.length)];
 
             // Highlight zone
             highlightZone(nextZone);

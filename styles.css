@@ -386,6 +386,48 @@ body::before {
     min-width: 40px;
 }
 
+/* Sequence Controls */
+.sequence-select {
+    width: 100%;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+    transition: all var(--transition-fast);
+}
+
+.sequence-select:hover {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.sequence-input {
+    width: 100%;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    font-size: 0.95rem;
+    font-weight: 500;
+    outline: none;
+    transition: all var(--transition-fast);
+}
+
+.sequence-input:focus {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: var(--color-accent);
+}
+
+.sequence-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
 /* Start Button */
 .start-btn {
     width: 100%;
