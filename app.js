@@ -159,6 +159,7 @@ function setupEventListeners() {
         toggleCustomSequenceInput('practice');
     });
     elements.customSequenceInput.addEventListener('change', updateSettingsFromInputs);
+    elements.customSequenceInput.addEventListener('input', updateSettingsFromInputs);
     
     // Rally sequence controls
     elements.rallySequenceModeSelect.addEventListener('change', () => {
@@ -166,6 +167,7 @@ function setupEventListeners() {
         toggleCustomSequenceInput('rally');
     });
     elements.rallyCustomSequenceInput.addEventListener('change', updateSettingsFromInputs);
+    elements.rallyCustomSequenceInput.addEventListener('input', updateSettingsFromInputs);
 
     // Footer buttons
     elements.helpBtn.addEventListener('click', () => openModal('help'));
@@ -402,24 +404,24 @@ function updateSettingsFromInputs() {
     
     // Practice mode sequence
     state.settings.sequenceMode = elements.sequenceModeSelect.value;
-    if (state.settings.sequenceMode === 'custom') {
-        const sequenceStr = elements.customSequenceInput.value.trim();
-        if (sequenceStr) {
-            state.settings.customSequence = sequenceStr.split(',')
-                .map(n => parseInt(n.trim()))
-                .filter(n => n >= 1 && n <= 6);
-        }
+    const sequenceStr = elements.customSequenceInput.value.trim();
+    if (sequenceStr) {
+        state.settings.customSequence = sequenceStr.split(',')
+            .map(n => parseInt(n.trim()))
+            .filter(n => n >= 1 && n <= 6);
+    } else {
+        state.settings.customSequence = [];
     }
     
     // Rally mode sequence
     state.settings.rallySequenceMode = elements.rallySequenceModeSelect.value;
-    if (state.settings.rallySequenceMode === 'custom') {
-        const sequenceStr = elements.rallyCustomSequenceInput.value.trim();
-        if (sequenceStr) {
-            state.settings.rallyCustomSequence = sequenceStr.split(',')
-                .map(n => parseInt(n.trim()))
-                .filter(n => n >= 1 && n <= 6);
-        }
+    const rallySequenceStr = elements.rallyCustomSequenceInput.value.trim();
+    if (rallySequenceStr) {
+        state.settings.rallyCustomSequence = rallySequenceStr.split(',')
+            .map(n => parseInt(n.trim()))
+            .filter(n => n >= 1 && n <= 6);
+    } else {
+        state.settings.rallyCustomSequence = [];
     }
     
     // Show/hide custom sequence input
