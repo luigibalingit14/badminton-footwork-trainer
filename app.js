@@ -211,10 +211,7 @@ function handleDragStart(e, zoneElement) {
     // Don't allow dragging during training
     if (state.isRunning) return;
 
-    // Prevent click event from firing
-    if (e.preventDefault) e.preventDefault();
-    if (e.stopPropagation) e.stopPropagation();
-
+    // Don't prevent default yet - only after we confirm it's a drag
     dragState.isDragging = true;
     dragState.hasMoved = false;
     dragState.currentZone = zoneElement;
@@ -242,16 +239,16 @@ function handleDragMove(e) {
     const clientX = e.clientX !== undefined ? e.clientX : (e.touches ? e.touches[0].clientX : 0);
     const clientY = e.clientY !== undefined ? e.clientY : (e.touches ? e.touches[0].clientY : 0);
 
-    // Check if moved more than threshold (10 pixels for touch, 5 for mouse)
-    const threshold = e.touches ? 10 : 5;
+    // Check if moved more than threshold (15 pixels for touch, 5 for mouse)
+    const threshold = e.touches ? 15 : 5;
     const moveDistance = Math.abs(clientX - dragState.startX) + Math.abs(clientY - dragState.startY);
     if (moveDistance > threshold) {
         dragState.hasMoved = true;
+        // Only prevent default once we confirm it's a drag
+        if (e.preventDefault) e.preventDefault();
     }
 
     if (!dragState.hasMoved) return;
-
-    if (e.preventDefault) e.preventDefault();
 
     const courtContainer = document.querySelector('.court-container');
     const courtRect = courtContainer.getBoundingClientRect();
@@ -288,10 +285,14 @@ function handleDragEnd(e) {
     dragState.wasDragging = dragState.hasMoved;
     dragState.isDragging = false;
     dragState.currentZone = null;
-    dragState.hasMoved = false;
     
     if (dragState.wasDragging) {
-        setTimeout(() => { dragState.wasDragging = false; }, 100);
+        setTimeout(() => { 
+            dragState.wasDragging = false;
+            dragState.hasMoved = false;
+        }, 150);
+    } else {
+        dragState.hasMoved = false;
     }
 }
 
@@ -299,7 +300,7 @@ function handleDragEnd(e) {
 function handleZoneClick(zoneElement) {
     // Small delay to check if it was actually a drag
     setTimeout(() => {
-        if (state.isRunning || dragState.wasDragging) {
+        if (state.isRunning || dragState.wasDragging || dragState.hasMoved) {
             dragState.wasDragging = false;
             return;
         }
@@ -311,7 +312,7 @@ function handleZoneClick(zoneElement) {
 
         // Update visual state
         updateZoneVisualState(zoneNumber);
-    }, 50);
+    }, 100);
 }
 
 // Update Zone Visual State
