@@ -180,6 +180,10 @@ body::before {
     animation: pulse 0.5s ease-in-out;
 }
 
+.doubles-zone.active::before {
+    background: radial-gradient(circle, rgba(255, 183, 77, 0.3) 0%, transparent 70%);
+}
+
 @keyframes pulse {
     0% {
         transform: translate(-50%, -50%) scale(0.8);
@@ -981,9 +985,26 @@ body::before {
     background: rgba(255, 255, 255, 0.3);
 }
 
+/* Doubles Zones (7-12) - Different Color */
+.doubles-zone .zone-number {
+    background: rgba(255, 183, 77, 0.2);
+    border-color: #FFB74D;
+}
+
+.doubles-zone.active .zone-number {
+    background: rgba(255, 183, 77, 0.4);
+    border-color: #FFA726;
+    box-shadow: 0 0 30px rgba(255, 183, 77, 0.6),
+                0 0 60px rgba(255, 183, 77, 0.3);
+}
+
 /* Zone Enabled/Disabled States */
 .zone.enabled .zone-number {
     border-color: var(--color-success);
+}
+
+.doubles-zone.enabled .zone-number {
+    border-color: #FFB74D;
 }
 
 .zone.disabled .zone-number {

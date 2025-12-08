@@ -675,8 +675,12 @@ function speakZoneNumber(zoneNumber) {
             // Cancel any ongoing speech
             window.speechSynthesis.cancel();
 
-            // Create utterance
-            const utterance = new SpeechSynthesisUtterance(zoneNumber.toString());
+            // Create utterance text - add "opponent" for zones 7-12
+            let text = zoneNumber.toString();
+            if (zoneNumber >= 7 && zoneNumber <= 12) {
+                text = `opponent ${zoneNumber}`;
+            }
+            const utterance = new SpeechSynthesisUtterance(text);
 
             // Configure voice settings
             utterance.rate = 1.0; // Normal speed
