@@ -132,6 +132,10 @@ body::before {
     justify-content: center;
     cursor: pointer;
     transition: all var(--transition-normal);
+    touch-action: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .zone-number {

@@ -111,8 +111,7 @@ function setupEventListeners() {
         
         // Drag handlers - Touch
         zone.addEventListener('touchstart', (e) => {
-            const touch = e.touches[0];
-            handleDragStart(touch, zone);
+            handleDragStart(e, zone);
         }, { passive: false });
     });
 
@@ -123,12 +122,11 @@ function setupEventListeners() {
     // Global drag handlers - Touch
     document.addEventListener('touchmove', (e) => {
         if (dragState.isDragging) {
-            e.preventDefault();
-            const touch = e.touches[0];
-            handleDragMove(touch);
+            handleDragMove(e);
         }
     }, { passive: false });
     document.addEventListener('touchend', handleDragEnd);
+    document.addEventListener('touchcancel', handleDragEnd);
 
     // Keyboard shortcuts
     document.addEventListener('keydown', handleKeyboard);
@@ -152,17 +150,23 @@ function handleDragStart(e, zoneElement) {
     if (state.isRunning) return;
 
     // Prevent click event from firing
-    e.stopPropagation();
+    if (e.preventDefault) e.preventDefault();
+    if (e.stopPropagation) e.stopPropagation();
 
     dragState.isDragging = true;
     dragState.hasMoved = false;
     dragState.currentZone = zoneElement;
-    dragState.startX = e.clientX;
-    dragState.startY = e.clientY;
+    
+    // Support both touch and mouse events
+    const clientX = e.clientX !== undefined ? e.clientX : (e.touches ? e.touches[0].clientX : 0);
+    const clientY = e.clientY !== undefined ? e.clientY : (e.touches ? e.touches[0].clientY : 0);
+    
+    dragState.startX = clientX;
+    dragState.startY = clientY;
 
     const rect = zoneElement.getBoundingClientRect();
-    dragState.offsetX = e.clientX - rect.left;
-    dragState.offsetY = e.clientY - rect.top;
+    dragState.offsetX = clientX - rect.left;
+    dragState.offsetY = clientY - rect.top;
 
     zoneElement.style.cursor = 'grabbing';
     zoneElement.style.zIndex = '1000';
@@ -172,22 +176,26 @@ function handleDragStart(e, zoneElement) {
 function handleDragMove(e) {
     if (!dragState.isDragging || !dragState.currentZone) return;
 
-    // Check if mouse has moved more than 5 pixels (threshold for drag vs click)
-    const moveDistance = Math.abs(e.clientX - dragState.startX) + Math.abs(e.clientY - dragState.startY);
+    // Support both touch and mouse events
+    const clientX = e.clientX !== undefined ? e.clientX : (e.touches ? e.touches[0].clientX : 0);
+    const clientY = e.clientY !== undefined ? e.clientY : (e.touches ? e.touches[0].clientY : 0);
+
+    // Check if moved more than 5 pixels (threshold for drag vs click)
+    const moveDistance = Math.abs(clientX - dragState.startX) + Math.abs(clientY - dragState.startY);
     if (moveDistance > 5) {
         dragState.hasMoved = true;
     }
 
     if (!dragState.hasMoved) return;
 
-    e.preventDefault();
+    if (e.preventDefault) e.preventDefault();
 
     const courtContainer = document.querySelector('.court-container');
     const courtRect = courtContainer.getBoundingClientRect();
 
     // Calculate new position relative to court
-    let newX = e.clientX - courtRect.left - dragState.offsetX;
-    let newY = e.clientY - courtRect.top - dragState.offsetY;
+    let newX = clientX - courtRect.left - dragState.offsetX;
+    let newY = clientY - courtRect.top - dragState.offsetY;
 
     // Convert to percentage
     const percentX = (newX / courtRect.width) * 100;
