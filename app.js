@@ -31,7 +31,7 @@ const state = {
 
 // Zone Configuration (Half Court - 6 zones)
 const zones = [1, 2, 3, 4, 5, 6];
-let sequenceIndex = 0;
+let sequenceIndex = -1;
 
 // Get Next Zone Based on Sequence Mode
 function getNextZone() {
@@ -45,7 +45,10 @@ function getNextZone() {
         case 'sequential':
             // Go through zones 1, 2, 3, 4, 5, 6 in order
             const enabledInOrder = enabledZones.sort((a, b) => a - b);
-            sequenceIndex = (sequenceIndex + 1) % enabledInOrder.length;
+            sequenceIndex++;
+            if (sequenceIndex >= enabledInOrder.length) {
+                sequenceIndex = 0;
+            }
             nextZone = enabledInOrder[sequenceIndex];
             break;
             
@@ -54,7 +57,10 @@ function getNextZone() {
             if (state.settings.customSequence.length > 0) {
                 const validSequence = state.settings.customSequence.filter(z => state.zonesEnabled[z]);
                 if (validSequence.length > 0) {
-                    sequenceIndex = (sequenceIndex + 1) % validSequence.length;
+                    sequenceIndex++;
+                    if (sequenceIndex >= validSequence.length) {
+                        sequenceIndex = 0;
+                    }
                     nextZone = validSequence[sequenceIndex];
                 } else {
                     // Fallback to random if no valid zones in custom sequence
@@ -440,6 +446,9 @@ function stopTraining() {
     const countdown = document.getElementById('countdown-display');
     if (countdown) countdown.remove();
     hideRallyShotCounter();
+    
+    // Reset sequence index for next training session
+    sequenceIndex = -1;
 }
 
 // Practice Mode
