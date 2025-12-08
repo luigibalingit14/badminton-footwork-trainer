@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive badminton footwork training app with practice and rally modes">
+    <title>Badminton Footwork Trainer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Court Background with Zones -->
+        <div class="court-container">
+            <!-- Zone 1: Front Left -->
+            <div class="zone" data-zone="1" style="top: 20%; left: 25%;">
+                <div class="zone-number">1</div>
+                <div class="zone-indicator">
+                    <svg class="indicator-icon checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <svg class="indicator-icon cross" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Zone 2: Front Right -->
+            <div class="zone" data-zone="2" style="top: 20%; right: 25%;">
+                <div class="zone-number">2</div>
+                <div class="zone-indicator">
+                    <svg class="indicator-icon checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <svg class="indicator-icon cross" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Zone 5: Mid Left -->
+            <div class="zone" data-zone="5" style="top: 50%; left: 25%; transform: translateY(-50%);">
+                <div class="zone-number">5</div>
+                <div class="zone-indicator">
+                    <svg class="indicator-icon checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <svg class="indicator-icon cross" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Zone 6: Mid Right -->
+            <div class="zone" data-zone="6" style="top: 50%; right: 25%; transform: translateY(-50%);">
+                <div class="zone-number">6</div>
+                <div class="zone-indicator">
+                    <svg class="indicator-icon checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <svg class="indicator-icon cross" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Zone 3: Back Left -->
+            <div class="zone" data-zone="3" style="bottom: 20%; left: 25%;">
+                <div class="zone-number">3</div>
+                <div class="zone-indicator">
+                    <svg class="indicator-icon checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <svg class="indicator-icon cross" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Zone 4: Back Right -->
+            <div class="zone" data-zone="4" style="bottom: 20%; right: 25%;">
+                <div class="zone-number">4</div>
+                <div class="zone-indicator">
+                    <svg class="indicator-icon checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <svg class="indicator-icon cross" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Court Lines (Decorative) -->
+            <div class="court-lines"></div>
+        </div>
+
+        <!-- Settings Panel -->
+        <div class="settings-panel">
+            <!-- Tab Navigation -->
+            <div class="tab-navigation">
+                <button class="tab-btn active" data-tab="practice">Practice</button>
+                <button class="tab-btn" data-tab="rally">Rally</button>
+            </div>
+
+            <!-- Practice Mode Settings -->
+            <div class="tab-content active" id="practice-tab">
+                <div class="setting-group">
+                    <label>Pause between shots</label>
+                    <div class="input-control">
+                        <button class="control-btn" data-action="decrease" data-target="pauseTime">−</button>
+                        <input type="number" id="pauseTime" value="2500" min="500" max="10000" step="100">
+                        <span class="unit">ms</span>
+                        <button class="control-btn" data-action="increase" data-target="pauseTime">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rally Mode Settings -->
+            <div class="tab-content" id="rally-tab">
+                <div class="setting-group">
+                    <label>Shots per rally (±30%)</label>
+                    <div class="input-control">
+                        <button class="control-btn" data-action="decrease" data-target="shotsPerRally">−</button>
+                        <input type="number" id="shotsPerRally" value="15" min="5" max="50" step="1">
+                        <span class="unit">Shots</span>
+                        <button class="control-btn" data-action="increase" data-target="shotsPerRally">+</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label>Rally speed</label>
+                    <div class="input-control">
+                        <button class="control-btn" data-action="decrease" data-target="rallySpeed">−</button>
+                        <input type="number" id="rallySpeed" value="600" min="300" max="2000" step="50">
+                        <span class="unit">ms</span>
+                        <button class="control-btn" data-action="increase" data-target="rallySpeed">+</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label>Pause between rallies</label>
+                    <div class="input-control">
+                        <button class="control-btn" data-action="decrease" data-target="rallyPause">−</button>
+                        <input type="number" id="rallyPause" value="10" min="3" max="60" step="1">
+                        <span class="unit">s</span>
+                        <button class="control-btn" data-action="increase" data-target="rallyPause">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Start Button -->
+            <button class="start-btn" id="startBtn">
+                <span class="btn-text">START</span>
+            </button>
+
+            <!-- Footer Icons -->
+            <div class="footer-icons">
+                <button class="icon-btn" id="helpBtn" title="Help">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                </button>
+                <button class="icon-btn" id="volumeBtn" title="Volume">
+                    <svg class="volume-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    <svg class="volume-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        style="display: none;">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <line x1="23" y1="9" x2="17" y2="15"></line>
+                        <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
+                </button>
+                <button class="icon-btn" id="legalBtn" title="Legal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Help Modal -->
+        <div class="modal" id="helpModal">
+            <div class="modal-content">
+                <button class="modal-close" id="closeHelp">&times;</button>
+                <h2>How to Use</h2>
+                <div class="help-section">
+                    <h3>Practice Mode</h3>
+                    <p>Train your footwork by moving to highlighted zones. Adjust the pause time between shots to match
+                        your skill level.</p>
+                    <ul>
+                        <li>Zones will light up one at a time</li>
+                        <li>Move to the highlighted zone as quickly as possible</li>
+                        <li>Return to center after each shot</li>
+                    </ul>
+                </div>
+                <div class="help-section">
+                    <h3>Rally Mode</h3>
+                    <p>Simulate real game scenarios with burst sequences of shots followed by rest periods.</p>
+                    <ul>
+                        <li>Set the number of shots per rally (±30% variation)</li>
+                        <li>Zones will highlight rapidly in sequence</li>
+                        <li>Rest during the pause between rallies</li>
+                    </ul>
+                </div>
+                <div class="help-section">
+                    <h3>Tips</h3>
+                    <ul>
+                        <li>Always return to center position between shots</li>
+                        <li>Focus on proper footwork technique, not just speed</li>
+                        <li>Start with longer pauses and gradually decrease</li>
+                        <li>Use Rally mode to build endurance</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legal Modal -->
+        <div class="modal" id="legalModal">
+            <div class="modal-content">
+                <button class="modal-close" id="closeLegal">&times;</button>
+                <h2>Legal Information</h2>
+                <div class="help-section">
+                    <h3>Disclaimer</h3>
+                    <p>This badminton footwork trainer is provided for educational and training purposes only. Always
+                        consult with a qualified coach before starting any new training program.</p>
+                </div>
+                <div class="help-section">
+                    <h3>Safety Notice</h3>
+                    <p>Ensure you have adequate space and proper footwear before training. Stop immediately if you
+                        experience pain or discomfort.</p>
+                </div>
+                <div class="help-section">
+                    <h3>License</h3>
+                    <p>© 2024 Badminton Footwork Trainer. All rights reserved.</p>
+                </div>
+                <div class="help-section">
+                    <h3>Credits</h3>
+                    <p>Developed by <strong>Luigi Balingit</strong></p>
+                    <p style="margin-top: 0.5rem; font-size: 0.875rem; opacity: 0.8;">Badminton Footwork Training Application</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
