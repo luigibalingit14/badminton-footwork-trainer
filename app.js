@@ -7,7 +7,7 @@ const state = {
         pauseTime: 2500, // milliseconds (stored internally, input is in seconds)
         shotsPerRally: 15,
         rallyPause: 10, // seconds
-        rallySpeed: 600, // milliseconds between shots in rally mode
+        rallySpeed: 600, // milliseconds between shots in rally mode (input is in seconds)
         sequenceMode: 'random', // 'random', 'sequential', or 'custom' for practice
         customSequence: [], // Custom sequence for practice
         rallySequenceMode: 'random', // 'random', 'sequential', or 'custom' for rally
@@ -470,7 +470,7 @@ function updateSettingsFromInputs() {
     state.settings.pauseTime = Math.round(parseFloat(elements.pauseTimeInput.value) * 1000); // Convert seconds to ms
     state.settings.shotsPerRally = parseInt(elements.shotsPerRallyInput.value);
     state.settings.rallyPause = parseInt(elements.rallyPauseInput.value);
-    state.settings.rallySpeed = parseInt(elements.rallySpeedInput.value);
+    state.settings.rallySpeed = Math.round(parseFloat(elements.rallySpeedInput.value) * 1000); // Convert seconds to ms
     
     // Practice mode sequence
     state.settings.sequenceMode = elements.sequenceModeSelect.value;
