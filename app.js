@@ -4,7 +4,7 @@ const state = {
     courtType: 'singles', // 'singles' (6 zones) or 'doubles' (12 zones)
     isRunning: false,
     settings: {
-        pauseTime: 2500, // milliseconds
+        pauseTime: 2500, // milliseconds (stored internally, input is in seconds)
         shotsPerRally: 15,
         rallyPause: 10, // seconds
         rallySpeed: 600, // milliseconds between shots in rally mode
@@ -467,7 +467,7 @@ function handleControlBtn(btn) {
 
 // Update Settings from Inputs
 function updateSettingsFromInputs() {
-    state.settings.pauseTime = parseInt(elements.pauseTimeInput.value);
+    state.settings.pauseTime = Math.round(parseFloat(elements.pauseTimeInput.value) * 1000); // Convert seconds to ms
     state.settings.shotsPerRally = parseInt(elements.shotsPerRallyInput.value);
     state.settings.rallyPause = parseInt(elements.rallyPauseInput.value);
     state.settings.rallySpeed = parseInt(elements.rallySpeedInput.value);
@@ -563,7 +563,7 @@ function stopTraining() {
     if (countdown) countdown.remove();
     hideRallyShotCounter();
     
-    // Reset sequence index for next training session
+    // Reset sequence index for next t raining session
     sequenceIndex = -1;
 }
 
