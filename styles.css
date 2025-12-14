@@ -142,33 +142,38 @@ body::before {
     width: 80px;
     height: 80px;
     border-radius: var(--radius-full);
-    background: rgba(0, 0, 0, 0.6);
+    background: linear-gradient(135deg, rgba(15, 25, 35, 0.9) 0%, rgba(30, 45, 60, 0.85) 100%);
     backdrop-filter: blur(10px);
-    border: 3px solid rgba(255, 255, 255, 0.8);
+    border: 3px solid rgba(0, 210, 200, 0.6);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 700;
-    color: var(--color-text);
+    color: #00d4c8;
     transition: all var(--transition-normal);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    text-shadow: 0 0 15px rgba(0, 210, 200, 0.5);
 }
 
 .zone.active .zone-number {
-    background: rgba(74, 222, 128, 0.8) !important;
-    border-color: var(--color-success) !important;
+    background: linear-gradient(135deg, rgba(0, 210, 200, 0.9) 0%, rgba(0, 180, 170, 0.85) 100%) !important;
+    border-color: #00ffef !important;
     border-width: 4px !important;
-    box-shadow: 0 0 40px rgba(74, 222, 128, 1), 0 0 80px rgba(74, 222, 128, 0.6) !important;
+    box-shadow: 0 0 40px rgba(0, 210, 200, 1), 0 0 80px rgba(0, 210, 200, 0.6) !important;
     transform: scale(1.3) !important;
+    color: #0a1a1a !important;
+    text-shadow: none !important;
 }
 
 .doubles-zone.active .zone-number {
-    background: rgba(255, 235, 59, 0.9) !important;
-    border-color: #FDD835 !important;
+    background: linear-gradient(135deg, rgba(255, 180, 50, 0.95) 0%, rgba(255, 150, 30, 0.9) 100%) !important;
+    border-color: #ffcc00 !important;
     border-width: 4px !important;
-    box-shadow: 0 0 40px rgba(255, 235, 59, 1), 0 0 80px rgba(255, 235, 59, 0.6) !important;
+    box-shadow: 0 0 40px rgba(255, 180, 50, 1), 0 0 80px rgba(255, 180, 50, 0.6) !important;
     transform: scale(1.3) !important;
+    color: #1a1200 !important;
+    text-shadow: none !important;
 }
 
 .zone.active {
@@ -211,17 +216,20 @@ body::before {
 
 .zone-indicator {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 70px;
-    height: 70px;
+    bottom: -5px;
+    right: -5px;
+    transform: none;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     pointer-events: none;
     transition: all var(--transition-normal);
+    background: linear-gradient(135deg, #00d4c8 0%, #00a89e 100%);
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgba(0, 210, 200, 0.5);
 }
 
 .zone.show-checkmark .zone-indicator {
@@ -229,23 +237,28 @@ body::before {
 }
 
 .indicator-icon {
-    width: 60px;
-    height: 60px;
+    width: 20px;
+    height: 20px;
     display: none;
 }
 
 .zone.show-checkmark .checkmark {
     display: block;
-    color: var(--color-success);
-    filter: drop-shadow(0 0 10px var(--color-success));
+    color: #ffffff;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
     animation: checkmarkPop 0.3s ease;
 }
 
 .zone.show-cross .cross {
     display: block;
-    color: var(--color-error);
-    filter: drop-shadow(0 0 10px var(--color-error));
+    color: #ffffff;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
     animation: crossShake 0.3s ease;
+}
+
+.zone.show-cross .zone-indicator {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    box-shadow: 0 2px 10px rgba(239, 68, 68, 0.5);
 }
 
 @keyframes checkmarkPop {
