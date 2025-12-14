@@ -156,6 +156,13 @@ body::before {
     text-shadow: 0 0 15px rgba(0, 210, 200, 0.5);
 }
 
+/* Doubles zones (7-12) - Orange/Amber color scheme */
+.doubles-zone .zone-number {
+    border: 3px solid rgba(255, 160, 50, 0.7);
+    color: #ffaa33;
+    text-shadow: 0 0 15px rgba(255, 160, 50, 0.5);
+}
+
 .zone.active .zone-number {
     background: linear-gradient(135deg, rgba(0, 210, 200, 0.9) 0%, rgba(0, 180, 170, 0.85) 100%) !important;
     border-color: #00ffef !important;
